@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Task Manager</title>
+</head>
+<body>
+  <h1>Team Task Manager</h1>
+
+  <h3>Create Project</h3>
+  <input id="projectName" placeholder="Project name"/>
+  <button onclick="createProject()">Create</button>
+
+  <h3>Create Task</h3>
+  <input id="taskName" placeholder="Task name"/>
+  <button onclick="createTask()">Create</button>
+
+  <script>
+    async function createProject(){
+      let name = document.getElementById("projectName").value;
+      await fetch('http://localhost:5000/projects', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({name})
+      });
+      alert("Project created");
+    }
+
+    async function createTask(){
+      let name = document.getElementById("taskName").value;
+      await fetch('http://localhost:5000/tasks', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({name, status:"pending"})
+      });
+      alert("Task created");
+    }
+  </script>
+</body>
+</html>
