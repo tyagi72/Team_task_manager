@@ -1,0 +1,45 @@
+
+const express = require('express');
+const cors = require('cors');
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+let users = [];
+let projects = [];
+let tasks = [];
+
+// Auth
+app.post('/signup', (req, res) => {
+  users.push(req.body);
+  res.json({msg: "User registered"});
+});
+
+app.post('/login', (req, res) => {
+  const user = users.find(u => u.email === req.body.email && u.password === req.body.password);
+  if(user) return res.json({msg: "Login success"});
+  res.status(401).json({msg: "Invalid credentials"});
+});
+
+// Projects
+app.post('/projects', (req, res) => {
+  projects.push(req.body);
+  res.json(projects);
+});
+
+app.get('/projects', (req, res) => {
+  res.json(projects);
+});
+
+// Tasks
+app.post('/tasks', (req, res) => {
+  tasks.push(req.body);
+  res.json(tasks);
+});
+
+app.get('/tasks', (req, res) => {
+  res.json(tasks);
+});
+
+app.listen(5000, () => console.log("Server running on 5000"));
